@@ -81,3 +81,13 @@ void AGeometryHubActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
+
+void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString& Name)
+{
+	return;
+}
+
+void AGeometryHubActor::OnTimerFinished(AActor* Actor)
+{
+	return;
+}
