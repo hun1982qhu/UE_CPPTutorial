@@ -36,6 +36,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// TSubclassOf will filter out all the available classes of the engine
+	// and in the property it will be possible to set only the BaseGeometryActor class
+	// or the classes that inherits from it.
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ABaseGeometryActor> GeometryClass;
 

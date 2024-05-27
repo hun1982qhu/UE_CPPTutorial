@@ -5,6 +5,9 @@
 #include "Math/Transform.h"
 #include "Engine/World.h"
 
+// LogGeometryHub is the name of DEFINE_LOG_CATEGORY_STATIC 
+DEFINE_LOG_CATEGORY_STATIC(LogGeometryHub, All, All)
+
 // Sets default values
 AGeometryHubActor::AGeometryHubActor()
 {
@@ -62,7 +65,7 @@ void AGeometryHubActor::BeginPlay()
 			}
 		}
 
-		for (const FGeometryPayload &Payload : GeometryPayloads)
+		for (const FGeometryPayload& Payload : GeometryPayloads)
 		{
 			ABaseGeometryActor* Geometry = World->SpawnActorDeferred<ABaseGeometryActor>(
 				Payload.GeometryClass, Payload.InitialTransform);
@@ -84,10 +87,12 @@ void AGeometryHubActor::Tick(float DeltaTime)
 
 void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString& Name)
 {
-	return;
+	UE_LOG(LogGeometryHub, Warning, TEXT("Actor name: %s Color %s"), *Name, *Color.ToString());
 }
 
 void AGeometryHubActor::OnTimerFinished(AActor* Actor)
 {
-	return;
+	if (!Actor)
+		return;
+	UE_LOG(LogGeometryHub, Error, TEXT("Timer finished: %s"), *Actor->GetName());
 }
