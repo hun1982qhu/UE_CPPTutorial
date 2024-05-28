@@ -25,7 +25,9 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnColorChanged, const FLinearColor&, Color, const FString&, Name);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnTimerFinished, AActor*);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief An enumeration class for different movement types.
+ */
 UENUM(BlueprintType)
 enum class EMovementType: uint8
 {

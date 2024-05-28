@@ -19,7 +19,32 @@ AGeometryHubActor::AGeometryHubActor()
 void AGeometryHubActor::BeginPlay()
 {
 	Super::BeginPlay();
+	DoActorSpawn();
+}
 
+// Called every frame
+void AGeometryHubActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+// The following need to be bound to delegate
+void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString& Name)
+{
+	UE_LOG(LogGeometryHub, Warning, TEXT("Actor name: %s Color %s"), *Name, *Color.ToString());
+}
+
+// The following need to be bound to delegate
+void AGeometryHubActor::OnTimerFinished(AActor* Actor)
+{
+	if (!Actor)
+		return;
+	UE_LOG(LogGeometryHub, Error, TEXT("Timer finished: %s"), *Actor->GetName());
+	
+}
+
+void AGeometryHubActor::DoActorSpawn()
+{
 	// returns a pointer to the global game world object
 	UWorld* World = GetWorld();
 
@@ -73,26 +98,10 @@ void AGeometryHubActor::BeginPlay()
 			if (Geometry)
 			{
 				Geometry->SetGeometryData(Payload.Data);
+				Geometry->OnColorChanged.AddDynamic(this, &AGeometryHubActor::OnColorChanged);
+				Geometry->OnTimerFinished.AddUObject(this, &AGeometryHubActor::OnTimerFinished);
 				Geometry->FinishSpawning(Payload.InitialTransform);
 			}
 		}
 	}
-}
-
-// Called every frame
-void AGeometryHubActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString& Name)
-{
-	UE_LOG(LogGeometryHub, Warning, TEXT("Actor name: %s Color %s"), *Name, *Color.ToString());
-}
-
-void AGeometryHubActor::OnTimerFinished(AActor* Actor)
-{
-	if (!Actor)
-		return;
-	UE_LOG(LogGeometryHub, Error, TEXT("Timer finished: %s"), *Actor->GetName());
 }

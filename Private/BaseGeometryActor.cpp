@@ -188,12 +188,17 @@ void ABaseGeometryActor::OnTimerFired()
 		UE_LOG(LogBaseGeometry, Display, TEXT("TimerCount: %i, Color to setup: %s"), TimerCount, *NewColor.ToString());
 		SetColor(NewColor);
 		// GetName's function is to get the name of the actor
+		// GetName 函数的作用是获取当前 ABaseGeometryActor 实例（即当前 Actor）的名字。
 		OnColorChanged.Broadcast(NewColor, GetName());
 	}
 	else
 	{
 		UE_LOG(LogBaseGeometry, Warning, TEXT("Timer has been stoped"));
 		GetWorldTimerManager().ClearTimer(TimerHandle);
+		// We pass the pointer to the current actor as a parameter, this is, in fact, a pointer to BaseGeometryActor
+		// But in the delegate signature we specified the parameter as pointer to the base class of the actor-AActor
+		// In fact, when the Broadcast funciton is called, an automatic up-cast -- the conversion of a pointer from
+		// ABaseGeometryActor to a pointer to just AActor.
 		OnTimerFinished.Broadcast(this);
 	}
 }

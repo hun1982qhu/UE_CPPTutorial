@@ -19,8 +19,7 @@ struct FGeometryPayload
 	FGeometryData Data;
 
 	UPROPERTY(EditAnywhere)
-	FTransform InitialTransform; 
-	
+	FTransform InitialTransform;
 };
 
 UCLASS()
@@ -56,7 +55,10 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 private:
-	void OnColorChanged(const FLinearColor &Color, const FString &Name);
-	void OnTimerFinished(AActor *Actor);
+	UFUNCTION()
+	void OnColorChanged(const FLinearColor& Color, const FString& Name);
+	void OnTimerFinished(AActor* Actor);
+	void DoActorSpawn();
 };
