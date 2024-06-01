@@ -98,6 +98,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 	// BlueprintReadWrite specifier allows you to access the property on the blueprint graph
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="GeometryData")
 	FGeometryData GeometryData;

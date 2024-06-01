@@ -76,6 +76,13 @@ void ABaseGeometryActor::BeginPlay()
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseGeometryActor::OnTimerFired, GeometryData.TimeRate, true);
 }
 
+void ABaseGeometryActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UE_LOG(LogBaseGeometry, Error, TEXT("Actor is dead %s"), *GetName());
+	// call the base class function via the super keyword so that we don't lose any
+	Super::EndPlay(EndPlayReason);
+}
+
 // Called every frame
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 void ABaseGeometryActor::Tick(float DeltaTime)

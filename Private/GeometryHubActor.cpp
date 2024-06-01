@@ -29,6 +29,11 @@ void AGeometryHubActor::Tick(float DeltaTime)
 }
 
 // The following need to be bound to delegate
+// When we call the broadcast function of our delegate, we pass the pointer to the current actor as a parameter,
+// that is, in fact, a pointer to BaseGeometryActor, but in the delegate signature we specified the parameter as
+// a pointer to the base class of the actor. In fact, when the broadcast function is called, an automatic up-cast occurs
+// -- the conversion of a pointer from ABaseGeometryActor to a pointer to just AActor.
+// We can change the signature of the delegate and explicitly indicate the signature ABaseGeometryActor.
 void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString& Name)
 {
 	UE_LOG(LogGeometryHub, Warning, TEXT("Actor name: %s Color %s"), *Name, *Color.ToString());
@@ -37,10 +42,15 @@ void AGeometryHubActor::OnColorChanged(const FLinearColor& Color, const FString&
 // The following need to be bound to delegate
 void AGeometryHubActor::OnTimerFinished(AActor* Actor)
 {
-	if (!Actor)
-		return;
+	if (!Actor) return;
 	UE_LOG(LogGeometryHub, Error, TEXT("Timer finished: %s"), *Actor->GetName());
-	
+
+	ABaseGeometryActor* Geometry = Cast<ABaseGeometryActor>(Actor);
+
+	if (!Geometry) return;
+	UE_LOG(LogGeometryHub, Display, TEXT("Cast is success, amplitude %f"), Geometry->GetGeometryData().Amplitude);
+	Geometry->Destroy();
+	// Geometry->SetLifeSpan(2.0f);
 }
 
 void AGeometryHubActor::DoActorSpawn()
