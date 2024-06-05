@@ -15,6 +15,12 @@ public:
 	// Sets default values for this pawn's properties
 	ASandboxPawn();
 
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent *SceneComponent;
+
+	UPROPERTY(EditAnywhere)
+	float Velocity = 300.0f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,5 +31,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+private:
+	FVector VelocityVector = FVector::ZeroVector;
+
+	void MoveForward(float Amount);
+	void MoveRight(float Amount);
 
 };
